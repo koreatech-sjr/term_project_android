@@ -16,13 +16,17 @@ public class DBHelper extends SQLiteOpenHelper {
     private static String DB_NAME = "JUSTPC";
     private static final int DB_VER = 1;
     public  static  final String DB_TABLE =  "Task";
-    public static final String  DB_COLUMN = "TaskName";
+    public  static final String  DB_COLUMN = "TaskName";
+    public  static final String  DB_COLUMN1 = "TaskYear";
+    public  static final String  DB_COLUMN2 = "TaskMonth";
+    public  static final String  DB_COLUMN3 = "TaskDay";
     public DBHelper(Context context) {
         super(context,DB_NAME,null,DB_VER);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String str = "CREATE TABLE Task (_id INTEGER PRIMARY KEY AUTOINCREMENT, TaskName TEXT NOT NULL);";
+
+        String str = "CREATE TABLE Task (_id INTEGER PRIMARY KEY AUTOINCREMENT, TaskName TEXT NOT NULL, TaskYear NOT NULL, TaskMonth NOT NULL, TaskDay NOT NULL);";
         db.execSQL(str);
     }
 
@@ -33,18 +37,19 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertNewTask(String task){
+    public void insertNewTask(String taskName, String taskYear, String taskMonth, String taskDay){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DB_COLUMN,task);
+        values.put(DB_COLUMN,taskName);
+        values.put(DB_COLUMN1,taskYear);
+        values.put(DB_COLUMN2,taskMonth);
+        values.put(DB_COLUMN3,taskDay);
         db.insert(DB_TABLE,null,values);
-        db.close();
     }
 
     public void deleteTask(String task){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DB_TABLE,"TaskName = ?", new String[] {task});
-        db.close();
     }
 
     public ArrayList<String> getTaskList(){
@@ -53,10 +58,9 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.query(DB_TABLE,new String[]{DB_COLUMN},null,null,null,null,null);
         int index = cursor.getColumnIndex(DB_COLUMN);
         while(cursor.moveToNext()){
-            taskList.add(cursor.getString(index));
+            taskList.add(cursor.getString(index).toString());
         }
         cursor.close();
-        db.close();
         return taskList;
     }
 }
