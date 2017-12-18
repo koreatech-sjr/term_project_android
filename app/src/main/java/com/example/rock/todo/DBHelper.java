@@ -17,16 +17,18 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final int DB_VER = 1;
     public  static  final String DB_TABLE =  "Task";
     public  static final String  DB_COLUMN = "TaskName";
-    public  static final String  DB_COLUMN1 = "TaskYear";
-    public  static final String  DB_COLUMN2 = "TaskMonth";
-    public  static final String  DB_COLUMN3 = "TaskDay";
+    public  static final String  DB_COLUMN1 = "TaskContents";
+    public  static final String  DB_COLUMN2 = "TaskLabel";
+    public  static final String  DB_COLUMN3 = "TaskYear";
+    public  static final String  DB_COLUMN4 = "TaskMonth";
+    public  static final String  DB_COLUMN5 = "TaskDay";
     public DBHelper(Context context) {
         super(context,DB_NAME,null,DB_VER);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String str = "CREATE TABLE Task (_id INTEGER PRIMARY KEY AUTOINCREMENT, TaskName TEXT NOT NULL, TaskYear NOT NULL, TaskMonth NOT NULL, TaskDay NOT NULL);";
+        String str = "CREATE TABLE Task (_id INTEGER PRIMARY KEY AUTOINCREMENT, TaskName TEXT NOT NULL, TaskContents NOT NULL, TaskLabel, TaskYear NOT NULL, TaskMonth NOT NULL, TaskDay NOT NULL);";
         db.execSQL(str);
     }
 
@@ -37,13 +39,15 @@ public class DBHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertNewTask(String taskName, String taskYear, String taskMonth, String taskDay){
+    public void insertNewTask(String taskName, String taskContents, String taskLabel, String taskYear, String taskMonth, String taskDay){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(DB_COLUMN,taskName);
-        values.put(DB_COLUMN1,taskYear);
-        values.put(DB_COLUMN2,taskMonth);
-        values.put(DB_COLUMN3,taskDay);
+        values.put(DB_COLUMN1,taskContents);
+        values.put(DB_COLUMN2,taskLabel);
+        values.put(DB_COLUMN3,taskYear);
+        values.put(DB_COLUMN4,taskMonth);
+        values.put(DB_COLUMN5,taskDay);
         db.insert(DB_TABLE,null,values);
     }
 

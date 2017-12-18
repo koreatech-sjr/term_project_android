@@ -6,61 +6,47 @@
     android:paddingRight="16dp"
     android:paddingTop="16dp" >
 
-    <TextView
-        android:id="@+id/textviewLogo"
-        android:layout_width="221dp"
-        android:layout_height="54dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp"
-        android:textSize="40sp"
-        android:text="Login" />
-
-    <TextView
-        android:id="@+id/textviewEmailAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textviewLogo"
-        android:text="Email Address"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <EditText
-        android:id="@+id/edittextEmailAddress"
+        android:id="@+id/edittextTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:layout_marginBottom="10dp"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/textviewEmailAddress">
-
-        <requestFocus />
-    </EditText>
-
-    <TextView
-        android:id="@+id/textviewPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_below="@+id/edittextEmailAddress" />
+        />
 
     <EditText
-        android:id="@+id/edittextPassword"
+        android:id="@+id/edittextContents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="10dp"
-        android:inputType="textPassword"
-        android:layout_below="@+id/textviewPassword" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edittextTitle"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/edittextLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edittextContents"
+        android:ems="10" />
+
+    <EditText
+        android:id="@+id/edittextYear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/edittextLabel"
+        android:ems="10" />
 
     <EditText
         android:id="@+id/edittextMonth"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextPassword"
-        android:layout_marginTop="13dp"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:layout_below="@+id/edittextYear"
+        android:ems="10" />
 
     <EditText
         android:id="@+id/edittextDay"
@@ -68,8 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/edittextMonth"
-        android:ems="10"
-        android:inputType="textPassword" />
+        android:ems="10" />
 
     <Button
         android:id="@+id/buttonSubmit"
@@ -77,6 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/edittextDay"
+        android:layout_marginTop="53dp"
         android:text="Sign In" />
 
 </RelativeLayout>

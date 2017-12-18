@@ -22,6 +22,9 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
     DBHelper dbHelper;
     ArrayAdapter<String> mAdapter;
     ListView lstTask;
+    ArrayList image_details;
+    ListView lv1 = null;
+    CustomListAdapter ca;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +38,10 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
             db = dbHelper.getReadableDatabase();
         }
 
-        ArrayList image_details = getListData();
-        final ListView lv1 = (ListView) findViewById(R.id.lstTask);
-        lv1.setAdapter(new CustomListAdapter(this, image_details));
+        image_details = getListData();
+        lv1 = (ListView) findViewById(R.id.lstTask);
+        ca = new CustomListAdapter(this, image_details);
+        lv1.setAdapter(ca);
     }
 
     private void loadTaskList() {
@@ -63,7 +67,11 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
         switch (item.getItemId()){
             case R.id.action_add_task:
                 show();
+                lv1 = (ListView) findViewById(R.id.lstTask);
+                lv1.setAdapter(ca);
+                break;
         }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -76,12 +84,14 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
     }
 
     @Override
-    public void onInputedData(String id, String pass, String month, String day) {
-        Toast.makeText(this, id+"/"+pass+"/"+month+"/"+day,Toast.LENGTH_LONG).show();
-        //dbHelper.insertNewTask(id,pass,month,day);
+    public void onInputedData(String title, String contents, String label, String year, String month, String day) {
+        Toast.makeText(getApplicationContext(), title+contents+label+year+month+day, Toast.LENGTH_LONG).show();
 
-        db.execSQL("INSERT INTO Task VALUES (null, '" + id+ "', '" + pass + "', '" + month + "', '" + day + "');");
-        loadTaskList();
+        db.execSQL("INSERT INTO Task VALUES (null, '" + title + "', '" + contents + "', '" + label + "', '" + year + "', '" + month + "', '" + day + "');");
+        image_details = getListData();
+        lv1 = (ListView) findViewById(R.id.lstTask);
+        ca = new CustomListAdapter(this, image_details);
+        lv1.setAdapter(ca);
 
     }
     void show()
@@ -91,18 +101,32 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
     }
     private ArrayList getListData() {
         ArrayList<String> taskList = dbHelper.getTaskList();
+        ArrayList<String> taskSubs = dbHelper.getTaskSubs();
 
         ArrayList<NewsItem> results = new ArrayList<NewsItem>();
         for(int i=0; i<taskList.size(); i++){
             NewsItem newsData = new NewsItem();
             newsData.setHeadline(taskList.get(i));
-            newsData.setReporterName("Pankaj Gupta");
+            newsData.setReporterName(taskSubs.get(i));
             newsData.setDate("May 26, 2013, 13:35");
             results.add(newsData);
         }
 
-
         // Add some more dummy data for testing
         return results;
+    }
+    protected void onResume() {
+        super.onResume();
+        lstTask = (ListView)findViewById(R.id.lstTask);
+        loadTaskList();
+        try {
+            db = dbHelper.getWritableDatabase();
+        } catch (SQLiteException e) {
+            db = dbHelper.getReadableDatabase();
+        }
+        image_details = getListData();
+        lv1 = (ListView) findViewById(R.id.lstTask);
+        ca = new CustomListAdapter(this, image_details);
+        lv1.setAdapter(ca);
     }
 }
