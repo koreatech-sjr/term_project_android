@@ -34,6 +34,10 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
         } catch (SQLiteException e) {
             db = dbHelper.getReadableDatabase();
         }
+
+        ArrayList image_details = getListData();
+        final ListView lv1 = (ListView) findViewById(R.id.lstTask);
+        lv1.setAdapter(new CustomListAdapter(this, image_details));
     }
 
     private void loadTaskList() {
@@ -58,34 +62,6 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_add_task:
-                /*
-                final EditText taskEditText = new EditText(this);
-                final EditText taskEditYear = new EditText(this);
-                final EditText taskEditMonth = new EditText(this);
-                final EditText taskEditDay = new EditText(this);
-                AlertDialog dialog = new AlertDialog.Builder(this)
-                        .setTitle("Add New Task")
-                        .setMessage("what do you want to do next")
-                        .setView(taskEditText)
-                        .setView(taskEditYear)
-                        .setView(taskEditMonth)
-                        .setView(taskEditDay)
-                        .setPositiveButton("Add", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String task = String.valueOf(taskEditText.getText());
-                                String year = String.valueOf(taskEditYear.getText());
-                                String month = String.valueOf(taskEditMonth.getText());
-                                String day = String.valueOf(taskEditDay.getText());
-                                dbHelper.insertNewTask(task,year,month,day);
-                                loadTaskList();
-                            }
-                        })
-                        .setNegativeButton("Cancel",null)
-                        .create();
-                dialog.show();
-                return true;
-                */
                 show();
         }
         return super.onOptionsItemSelected(item);
@@ -112,5 +88,21 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
     {
        RegisterSchedule newFragment = new RegisterSchedule();
        newFragment.show(getFragmentManager(), "dialog"); //"dialog"라는 태그를 갖는 프래그먼트를 보여준다.
+    }
+    private ArrayList getListData() {
+        ArrayList<String> taskList = dbHelper.getTaskList();
+
+        ArrayList<NewsItem> results = new ArrayList<NewsItem>();
+        for(int i=0; i<taskList.size(); i++){
+            NewsItem newsData = new NewsItem();
+            newsData.setHeadline(taskList.get(i));
+            newsData.setReporterName("Pankaj Gupta");
+            newsData.setDate("May 26, 2013, 13:35");
+            results.add(newsData);
+        }
+
+
+        // Add some more dummy data for testing
+        return results;
     }
 }
