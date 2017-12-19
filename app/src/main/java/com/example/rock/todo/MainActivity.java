@@ -1,5 +1,6 @@
 package com.example.rock.todo;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity
     ArrayList image_details;
     ListView lv1 = null;
     CustomListAdapter ca;
+    Cursor cursor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,30 +156,39 @@ public class MainActivity extends AppCompatActivity
         ArrayList<String> taskMonths = dbHelper.getTaskMonth();
         ArrayList<String> taskDays = dbHelper.getTaskDays();
 
+
         int id = item.getItemId();
-        //d-day로보기
-        if (id == R.id.nav_camera) {
-
-        }
-        // Handle the camera action
-        else if (id == R.id.nav_gallery) {
-
-        }
-        //라벨순으로 정렬
-        else if (id == R.id.nav_slideshow) {
-
-        }
-        //오름차순 정렬
-        else if (id == R.id.nav_manage) {
-
-        }
-        //로그아웃
-        else if (id == R.id.nav_share) {
-
-        }
-        //캘린더로 보기
-        else if (id == R.id.nav_send) {
-
+        switch(id){
+            case R.id.black:
+                image_details = getListSelectLabel("black");
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
+            case R.id.red:
+                image_details = getListSelectLabel("red");
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
+            case R.id.yellow:
+                image_details = getListSelectLabel("yellow");
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
+            case R.id.green:
+                image_details = getListSelectLabel("green");
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
+            case R.id.blue:
+                image_details = getListSelectLabel("blue");
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
+            case R.id.purple:
+                image_details = getListSelectLabel("purple");
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -234,6 +245,30 @@ public class MainActivity extends AppCompatActivity
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             results.add(newsData);
+        }
+
+        // Add some more dummy data for testing
+        return results;
+    }
+    private ArrayList getListSelectLabel(String label){
+        ArrayList<String> taskList = dbHelper.getTaskList();
+        ArrayList<String> taskSubs = dbHelper.getTaskSubs();
+        ArrayList<String> taskLabels = dbHelper.getTaskLabels();
+        ArrayList<String> taskYears = dbHelper.getTaskYear();
+        ArrayList<String> taskMonths = dbHelper.getTaskMonth();
+        ArrayList<String> taskDays = dbHelper.getTaskDays();
+        ArrayList<NewsItem> results = new ArrayList<NewsItem>();
+        System.out.println("DFDFDF : "+label);
+        for(int i=0; i<taskList.size(); i++){
+            System.out.println("IN : "+taskLabels.get(i).toString());
+            if(taskLabels.get(i).toString().equals(label)){
+                System.out.println("맞음");
+                NewsItem newsData = new NewsItem();
+                newsData.setHeadline(taskList.get(i));
+                newsData.setReporterName(taskSubs.get(i));
+                newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+                results.add(newsData);
+            }
         }
 
         // Add some more dummy data for testing
