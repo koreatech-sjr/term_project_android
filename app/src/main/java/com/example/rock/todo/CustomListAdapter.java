@@ -61,6 +61,7 @@ public class CustomListAdapter extends BaseAdapter implements View.OnTouchListen
             holder.headlineView = (TextView) convertView.findViewById(R.id.title);
             holder.reporterNameView = (TextView) convertView.findViewById(R.id.reporter);
             holder.reportedDateView = (TextView) convertView.findViewById(R.id.date);
+            holder.ddayView = (TextView) convertView.findViewById(R.id.dday);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -69,6 +70,8 @@ public class CustomListAdapter extends BaseAdapter implements View.OnTouchListen
         holder.headlineView.setText(listData.get(position).getHeadline());
         holder.reporterNameView.setText("By, " + listData.get(position).getReporterName());
         holder.reportedDateView.setText(listData.get(position).getDate());
+        //TODO: 몇일 지남 만들어야함
+        holder.ddayView.setText(listData.get(position).getDday()+"일 남음");
         return convertView;
     }
     public void remove(int position){
@@ -89,9 +92,11 @@ public class CustomListAdapter extends BaseAdapter implements View.OnTouchListen
         TextView headlineView;
         TextView reporterNameView;
         TextView reportedDateView;
+        TextView ddayView;
         public TextView text;
         public float lastTouchedX;
         public float lastTouchedY;
+
 
         public ViewHolder(View v) {
             text = (TextView) v;

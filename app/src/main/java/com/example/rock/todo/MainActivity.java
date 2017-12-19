@@ -47,9 +47,11 @@ import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -100,12 +102,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String PREF_ACCOUNT_NAME = "accountName";
     private static final String[] SCOPES = { CalendarScopes.CALENDAR_READONLY };
 
+    //날짜
+    long now;
+    Integer nowDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String getDate = sdf.format(date);
+        nowDate = Integer.parseInt(getDate);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -359,6 +370,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+            newsData.setDday((Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i))-nowDate-1)+"");
             results.add(newsData);
         }
 
@@ -382,6 +394,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 newsData.setHeadline(taskList.get(i));
                 newsData.setReporterName(taskSubs.get(i));
                 newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+                newsData.setDday((Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i))-nowDate-1)+"");
                 results.add(newsData);
             }
         }
@@ -674,6 +687,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     newsData.setHeadline(taskList.get(i));
                     newsData.setReporterName(taskSubs.get(i));
                     newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+                    newsData.setDday((Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i))-nowDate-1)+"");
                     results.add(newsData);
                 }
                 image_details = results;
@@ -721,6 +735,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            newsData.setDday((Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i))-nowDate-1)+"");
             results.add(newsData);
         }
 
