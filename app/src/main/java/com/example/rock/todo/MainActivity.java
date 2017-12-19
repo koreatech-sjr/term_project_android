@@ -22,6 +22,7 @@ import android.Manifest;
 import android.accounts.AccountManager;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ListActivity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -48,6 +49,7 @@ import pub.devrel.easypermissions.EasyPermissions;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -72,8 +74,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, RegisterSchedule.OnCompleteListener, AdjustSchedule.OnCompleteListener, EasyPermissions.PermissionCallbacks {
+import static java.util.Collections.swap;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RegisterSchedule.OnCompleteListener, AdjustSchedule.OnCompleteListener, EasyPermissions.PermissionCallbacks {
     private SQLiteDatabase db;
     DBHelper dbHelper;
     ArrayAdapter<String> mAdapter;
@@ -112,7 +115,7 @@ public class MainActivity extends AppCompatActivity
                 //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 show();
                 lv1 = (ListView) findViewById(R.id.lstTask);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
             }
         });
 
@@ -194,6 +197,7 @@ public class MainActivity extends AppCompatActivity
 
                             @Override
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                ca = sortedData();
                                 for (int position : reverseSortedPositions) {
                                     System.out.println(position);
                                     ArrayList<String> uidList = dbHelper.getTaskUid();
@@ -203,7 +207,7 @@ public class MainActivity extends AppCompatActivity
 
                                 image_details = getListData();
                                 lv1 = (ListView) findViewById(R.id.lstTask);
-                                lv1.setAdapter(ca);
+                                lv1.setAdapter(sortedData());
                             }
                         });
         lv1.setOnTouchListener(touchListener);
@@ -213,7 +217,7 @@ public class MainActivity extends AppCompatActivity
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
-
+        lv1.setAdapter(sortedData());
     }
     private void loadTaskList() {
 
@@ -266,37 +270,37 @@ public class MainActivity extends AppCompatActivity
             case R.id.black:
                 image_details = getListSelectLabel("black");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.red:
                 image_details = getListSelectLabel("red");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.yellow:
                 image_details = getListSelectLabel("yellow");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.green:
                 image_details = getListSelectLabel("green");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.blue:
                 image_details = getListSelectLabel("blue");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.purple:
                 image_details = getListSelectLabel("purple");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.all:
                 image_details = getListData();
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(ca);
+                lv1.setAdapter(sortedData());
                 break;
             case R.id.gc:
                 getResultsFromApi();
@@ -315,8 +319,7 @@ public class MainActivity extends AppCompatActivity
         image_details = getListData();
         lv1 = (ListView) findViewById(R.id.lstTask);
         ca = new CustomListAdapter(this, image_details);
-        lv1.setAdapter(ca);
-
+        lv1.setAdapter(sortedData());
     }
     @Override
     public void onAdjustInputedData(String title, String contents, String label, String year, String month, String day, String where) {
@@ -326,12 +329,9 @@ public class MainActivity extends AppCompatActivity
         image_details = getListData();
         lv1 = (ListView) findViewById(R.id.lstTask);
         ca = new CustomListAdapter(this, image_details);
-        lv1.setAdapter(ca);
+        lv1.setAdapter(sortedData());
     }
-    public void reLoad(){
-        ca = new CustomListAdapter(this, image_details);
-        lv1.setAdapter(ca);
-    }
+
     void show()
     {
         RegisterSchedule newFragment = new RegisterSchedule();
@@ -391,17 +391,10 @@ public class MainActivity extends AppCompatActivity
     }
     protected void onResume() {
         super.onResume();
-        lstTask = (ListView)findViewById(R.id.lstTask);
-        loadTaskList();
-        try {
-            db = dbHelper.getWritableDatabase();
-        } catch (SQLiteException e) {
-            db = dbHelper.getReadableDatabase();
-        }
         image_details = getListData();
         lv1 = (ListView) findViewById(R.id.lstTask);
         ca = new CustomListAdapter(this, image_details);
-        lv1.setAdapter(ca);
+        lv1.setAdapter(sortedData());
     }
 
     private void getResultsFromApi() {
@@ -684,9 +677,8 @@ public class MainActivity extends AppCompatActivity
                     results.add(newsData);
                 }
                 image_details = results;
-                lv1 = (ListView) findViewById(R.id.lstTask);
-                ca = new CustomListAdapter(MainActivity.this, image_details);
-                lv1.setAdapter(ca);
+
+                lv1.setAdapter(sortedData());
                 Toast.makeText(MainActivity.this,"Google Calendar에서 총 "+size+"개의 일정을 가져옴.(중복제외)", Toast.LENGTH_LONG).show();
             }
         }
@@ -711,5 +703,38 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this,"Request cancelled.", Toast.LENGTH_LONG).show();
             }
         }
+    }
+    public CustomListAdapter sortedData(){
+        CustomListAdapter sca;
+        ArrayList<String> taskList = dbHelper.getTaskList();
+        ArrayList<String> taskSubs = dbHelper.getTaskSubs();
+        ArrayList<String> taskLabels = dbHelper.getTaskLabels();
+        ArrayList<String> taskYears = dbHelper.getTaskYear();
+        ArrayList<String> taskMonths = dbHelper.getTaskMonth();
+        ArrayList<String> taskDays = dbHelper.getTaskDays();
+        ArrayList<NewsItem> results = new ArrayList<NewsItem>();
+
+        for(int i=0; i<taskList.size(); i++){
+
+            NewsItem newsData = new NewsItem();
+            newsData.setHeadline(taskList.get(i));
+            newsData.setReporterName(taskSubs.get(i));
+            newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+            newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            results.add(newsData);
+        }
+
+        for(int i=0; i<results.size()-1; i++) {
+            int min = i;
+            for(int j=i+1; j<results.size(); j++) {
+                if(results.get(j).getDates() < results.get(min).getDates()) { //오름차순
+                    min = j;
+                }
+            }
+            swap(results, min, i);
+        }
+
+        sca = new CustomListAdapter(MainActivity.this, results);
+        return sca;
     }
 }

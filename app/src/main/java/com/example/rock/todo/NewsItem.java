@@ -8,6 +8,7 @@ public class NewsItem {
     private String headline;
     private String reporterName;
     private String date;
+    private Integer dates;
     public String getHeadline() {
         return headline;
     }
@@ -31,4 +32,8 @@ public class NewsItem {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public void setDates(Integer dates) { this.dates = dates; }
+
+    public Integer getDates() { return dates; }
 }
