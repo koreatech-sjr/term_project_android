@@ -95,9 +95,12 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
+                                    System.out.println(position);
+                                    ArrayList<String> uidList = dbHelper.getTaskUid();
                                     ca.remove(position);
-                                    db.execSQL(String.format("DELETE FROM Task WHERE taskName = %s", dbHelper.getTaskList().get(position)));
+                                    db.execSQL(String.format("DELETE FROM Task WHERE _id = %s", uidList.get(position)));
                                 }
+
                                 image_details = getListData();
                                 lv1 = (ListView) findViewById(R.id.lstTask);
                                 lv1.setAdapter(ca);
@@ -144,20 +147,36 @@ public class MainActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
+        ArrayList<String> taskList = dbHelper.getTaskList();
+        ArrayList<String> taskSubs = dbHelper.getTaskSubs();
+        ArrayList<String> taskLabels = dbHelper.getTaskLabels();
+        ArrayList<String> taskYears = dbHelper.getTaskYear();
+        ArrayList<String> taskMonths = dbHelper.getTaskMonth();
+        ArrayList<String> taskDays = dbHelper.getTaskDays();
+
         int id = item.getItemId();
-
+        //d-day로보기
         if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_slideshow) {
+        }
+        // Handle the camera action
+        else if (id == R.id.nav_gallery) {
 
-        } else if (id == R.id.nav_manage) {
+        }
+        //라벨순으로 정렬
+        else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_share) {
+        }
+        //오름차순 정렬
+        else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_send) {
+        }
+        //로그아웃
+        else if (id == R.id.nav_share) {
+
+        }
+        //캘린더로 보기
+        else if (id == R.id.nav_send) {
 
         }
 
