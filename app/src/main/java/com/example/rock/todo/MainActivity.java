@@ -107,8 +107,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 //아래코드는 하단에 메시지 띄우기
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                //        .setAction("Action", null).show();
+                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
                 show();
                 lv1 = (ListView) findViewById(R.id.lstTask);
                 lv1.setAdapter(ca);
@@ -287,7 +286,10 @@ public class MainActivity extends AppCompatActivity
         ca = new CustomListAdapter(this, image_details);
         lv1.setAdapter(ca);
     }
-
+    public void reLoad(){
+        ca = new CustomListAdapter(this, image_details);
+        lv1.setAdapter(ca);
+    }
     void show()
     {
         RegisterSchedule newFragment = new RegisterSchedule();
@@ -366,7 +368,7 @@ public class MainActivity extends AppCompatActivity
         } else if (mCredential.getSelectedAccountName() == null) {
             chooseAccount();
         } else if (! isDeviceOnline()) {
-            mOutputText.setText("No network connection available.");
+            Toast.makeText(MainActivity.this, "No network connection available.", Toast.LENGTH_LONG).show();
         } else {
             new MakeRequestTask(mCredential).execute();
         }
@@ -400,9 +402,8 @@ public class MainActivity extends AppCompatActivity
         switch(requestCode) {
             case REQUEST_GOOGLE_PLAY_SERVICES:
                 if (resultCode != RESULT_OK) {
-                    mOutputText.setText(
-                            "This app requires Google Play Services. Please install " +
-                                    "Google Play Services on your device and relaunch this app.");
+                    Toast.makeText(MainActivity.this, "This app requires Google Play Services. Please install " +
+                            "Google Play Services on your device and relaunch this app.", Toast.LENGTH_LONG).show();
                 } else {
                     getResultsFromApi();
                 }
@@ -591,10 +592,60 @@ public class MainActivity extends AppCompatActivity
         protected void onPostExecute(List<String> output) {
             mProgress.hide();
             if (output == null || output.size() == 0) {
-                mOutputText.setText("No results returned.");
+                Toast.makeText(MainActivity.this, "No results returned." , Toast.LENGTH_LONG).show();
             } else {
-                output.add(0, "Data retrieved using the Google Calendar API:");
+                //TODO: 추가하기
                 mOutputText.setText(TextUtils.join("\n", output));
+                System.out.println(output);
+                String[] data;
+
+                for(int i=0; i<output.size(); i++) {
+                    data = output.get(i).split(" ");
+                    String title = data[0];
+                    boolean flag = true;
+                    for(int j=0; j<dbHelper.getTaskList().size(); j++){
+                        if(title.equals(dbHelper.getTaskList().get(j).toString())){
+                            System.out.println("k");
+                            flag = false;
+                        }
+                    }
+                    if(flag){
+                        String date = data[1];
+
+                        date = data[1].replace(")","");
+                        String year = date.substring(1,5);
+                        String month = date.substring(6,8);
+                        String day = date.substring(9,11);
+
+
+                        String contents = "";
+                        String label = "";
+
+                        month.replace("0","");
+                        day.replace("0", "");
+
+                        db.execSQL("INSERT INTO Task VALUES (null, '" + title + "', '" + contents + "', '" + label + "', '" + year + "', '" + month + "', '" + day + "');");
+                    }
+                }
+                ArrayList<String> taskList = dbHelper.getTaskList();
+                ArrayList<String> taskSubs = dbHelper.getTaskSubs();
+                ArrayList<String> taskLabels = dbHelper.getTaskLabels();
+                ArrayList<String> taskYears = dbHelper.getTaskYear();
+                ArrayList<String> taskMonths = dbHelper.getTaskMonth();
+                ArrayList<String> taskDays = dbHelper.getTaskDays();
+                ArrayList<NewsItem> results = new ArrayList<NewsItem>();
+
+                for(int i=0; i<taskList.size(); i++){
+                    NewsItem newsData = new NewsItem();
+                    newsData.setHeadline(taskList.get(i));
+                    newsData.setReporterName(taskSubs.get(i));
+                    newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+                    results.add(newsData);
+                }
+                image_details = results;
+                lv1 = (ListView) findViewById(R.id.lstTask);
+                ca = new CustomListAdapter(MainActivity.this, image_details);
+                lv1.setAdapter(ca);
             }
         }
 
