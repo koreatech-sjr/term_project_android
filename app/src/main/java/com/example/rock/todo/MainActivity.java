@@ -42,6 +42,27 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
         lv1 = (ListView) findViewById(R.id.lstTask);
         ca = new CustomListAdapter(this, image_details);
         lv1.setAdapter(ca);
+        SwipeDismissListViewTouchListener touchListener =
+                new SwipeDismissListViewTouchListener(lv1,
+                        new SwipeDismissListViewTouchListener.DismissCallbacks() {
+                            @Override
+                            public boolean canDismiss(int position) {
+                                return true;
+                            }
+
+                            @Override
+                            public void onDismiss(ListView listView, int[] reverseSortedPositions) {
+                                for (int position : reverseSortedPositions) {
+                                    ca.remove(position);
+                                }
+                                image_details = getListData();
+                                lv1 = (ListView) findViewById(R.id.lstTask);
+                                lv1.setAdapter(ca);
+                            }
+                        });
+        lv1.setOnTouchListener(touchListener);
+        lv1.setOnScrollListener(touchListener.makeScrollListener());
+
     }
 
     private void loadTaskList() {

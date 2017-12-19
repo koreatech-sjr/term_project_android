@@ -55,6 +55,9 @@ public class CustomListAdapter extends BaseAdapter {
         holder.reportedDateView.setText(listData.get(position).getDate());
         return convertView;
     }
+    public void remove(int position){
+        listData.remove(getItem(position));
+    }
 
     static class ViewHolder {
         TextView headlineView;
