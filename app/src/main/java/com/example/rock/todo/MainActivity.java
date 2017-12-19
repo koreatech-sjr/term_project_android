@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -17,7 +18,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements RegisterSchedule.OnCompleteListener {
+public class MainActivity extends AppCompatActivity implements RegisterSchedule.OnCompleteListener, AdjustSchedule.OnCompleteListener {
     private SQLiteDatabase db;
     DBHelper dbHelper;
     ArrayAdapter<String> mAdapter;
@@ -42,6 +43,16 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
         lv1 = (ListView) findViewById(R.id.lstTask);
         ca = new CustomListAdapter(this, image_details);
         lv1.setAdapter(ca);
+        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                Object o = lv1.getItemAtPosition(position);
+                NewsItem newsData = (NewsItem) o;
+                Toast.makeText(MainActivity.this, "Selected :" + " " + newsData, Toast.LENGTH_LONG).show();
+                showAdjust(position);
+            }
+        });
         SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(lv1,
                         new SwipeDismissListViewTouchListener.DismissCallbacks() {
@@ -63,7 +74,6 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
                         });
         lv1.setOnTouchListener(touchListener);
         lv1.setOnScrollListener(touchListener.makeScrollListener());
-
     }
 
     private void loadTaskList() {
@@ -116,10 +126,30 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
         lv1.setAdapter(ca);
 
     }
+    @Override
+    public void onAdjustInputedData(String title, String contents, String label, String year, String month, String day, String where) {
+        Toast.makeText(getApplicationContext(), title+contents+label+year+month+day, Toast.LENGTH_LONG).show();
+
+        db.execSQL("UPDATE Task SET TaskName = '"+title+"', TaskContents = '"+contents+"', TaskLabel = '"+label+"', TaskYear = '"+year+"', TaskMonth = '"+month+"', TaskDay = '"+day+"' WHERE TaskName = '"+where+"';");
+        image_details = getListData();
+        lv1 = (ListView) findViewById(R.id.lstTask);
+        ca = new CustomListAdapter(this, image_details);
+        lv1.setAdapter(ca);
+
+    }
     void show()
     {
        RegisterSchedule newFragment = new RegisterSchedule();
        newFragment.show(getFragmentManager(), "dialog"); //"dialog"라는 태그를 갖는 프래그먼트를 보여준다.
+    }
+    void showAdjust(int position){
+        AdjustSchedule newFragment = new AdjustSchedule( dbHelper.getTaskList().get(position),
+                dbHelper.getTaskSubs().get(position),
+                dbHelper.getTaskLabels().get(position),
+                dbHelper.getTaskYear().get(position),
+                dbHelper.getTaskMonth().get(position),
+                dbHelper.getTaskDays().get(position) );
+        newFragment.show(getFragmentManager(), "dialog"); //"dialog"라는 태그를 갖는 프래그먼트를 보여준다.
     }
     private ArrayList getListData() {
         ArrayList<String> taskList = dbHelper.getTaskList();
