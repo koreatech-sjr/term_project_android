@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
                             public void onDismiss(ListView listView, int[] reverseSortedPositions) {
                                 for (int position : reverseSortedPositions) {
                                     ca.remove(position);
+                                    db.execSQL(String.format("DELETE FROM Task WHERE taskName = %s", dbHelper.getTaskList().get(position)));
                                 }
                                 image_details = getListData();
                                 lv1 = (ListView) findViewById(R.id.lstTask);
