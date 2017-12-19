@@ -26,6 +26,8 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -33,6 +35,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
+import android.view.DragEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -136,16 +139,51 @@ public class MainActivity extends AppCompatActivity
         lv1 = (ListView) findViewById(R.id.lstTask);
         ca = new CustomListAdapter(this, image_details);
         lv1.setAdapter(ca);
-        lv1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
+        lv1.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                Object o = lv1.getItemAtPosition(position);
-                NewsItem newsData = (NewsItem) o;
-                Toast.makeText(MainActivity.this, "Selected :" + " " + newsData, Toast.LENGTH_LONG).show();
-                showAdjust(position);
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                //
+                // start dragging
+                //
+                CustomListAdapter.ViewHolder vh = (CustomListAdapter.ViewHolder) view.getTag();
+
+                final int touchedX = (int) (vh.lastTouchedX + 0.5f);
+                final int touchedY = (int) (vh.lastTouchedY + 0.5f);
+
+                view.startDrag(null, new View.DragShadowBuilder(view) {
+                    @Override
+                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                        super.onProvideShadowMetrics(shadowSize, shadowTouchPoint);
+                        shadowTouchPoint.x = touchedX;
+                        shadowTouchPoint.y = touchedY;
+                    }
+
+                    @Override
+                    public void onDrawShadow(Canvas canvas) {
+                        super.onDrawShadow(canvas);
+                    }
+                }, view, 0);
+
+                view.setVisibility(View.INVISIBLE);
+
+                return true;
             }
         });
+
+        lv1.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View v, DragEvent event) {
+                if (event.getAction() == DragEvent.ACTION_DROP) {
+                    //
+                    // finish dragging
+                    //
+                    View view = (View) event.getLocalState();
+                    view.setVisibility(View.VISIBLE);
+                }
+                return true;
+            }
+        });
+
         SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(lv1,
                         new SwipeDismissListViewTouchListener.DismissCallbacks() {
