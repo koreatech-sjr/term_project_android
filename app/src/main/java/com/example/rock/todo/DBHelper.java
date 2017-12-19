@@ -124,4 +124,15 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return taskListSubs;
     }
+    public ArrayList<String> getTaskUid(){
+        ArrayList<String> taskListSubs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DB_TABLE,new String[]{"_id"},null,null,null,null,null);
+        int index = cursor.getColumnIndex("_id");
+        while(cursor.moveToNext()){
+            taskListSubs.add(cursor.getString(index).toString());
+        }
+        cursor.close();
+        return taskListSubs;
+    }
 }

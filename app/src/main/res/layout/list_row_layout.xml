@@ -30,4 +30,13 @@
         android:layout_alignParentRight="true"
         android:textColor="#343434"
         android:textSize="12sp" />
+    <TextView
+        android:id="@+id/dday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/title"
+        android:layout_alignBottom="@+id/title"
+        android:layout_alignParentRight="true"
+        android:textColor="#343434"
+        android:textSize="12sp" />
 </RelativeLayout>
