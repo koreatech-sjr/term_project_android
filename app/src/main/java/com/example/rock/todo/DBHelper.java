@@ -78,4 +78,50 @@ public class DBHelper extends SQLiteOpenHelper {
         cursor.close();
         return taskListSubs;
     }
+
+    public ArrayList<String> getTaskLabels(){
+        ArrayList<String> taskListLabels = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DB_TABLE,new String[]{DB_COLUMN2},null,null,null,null,null);
+        int index = cursor.getColumnIndex(DB_COLUMN2);
+        while(cursor.moveToNext()){
+            taskListLabels.add(cursor.getString(index).toString());
+        }
+        cursor.close();
+        return taskListLabels;
+    }
+
+    public ArrayList<String> getTaskYear(){
+        ArrayList<String> taskListSubs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DB_TABLE,new String[]{DB_COLUMN3},null,null,null,null,null);
+        int index = cursor.getColumnIndex(DB_COLUMN3);
+        while(cursor.moveToNext()){
+            taskListSubs.add(cursor.getString(index).toString());
+        }
+        cursor.close();
+        return taskListSubs;
+    }
+    public ArrayList<String> getTaskMonth(){
+        ArrayList<String> taskListSubs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DB_TABLE,new String[]{DB_COLUMN4},null,null,null,null,null);
+        int index = cursor.getColumnIndex(DB_COLUMN4);
+        while(cursor.moveToNext()){
+            taskListSubs.add(cursor.getString(index).toString());
+        }
+        cursor.close();
+        return taskListSubs;
+    }
+    public ArrayList<String> getTaskDays(){
+        ArrayList<String> taskListSubs = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.query(DB_TABLE,new String[]{DB_COLUMN5},null,null,null,null,null);
+        int index = cursor.getColumnIndex(DB_COLUMN5);
+        while(cursor.moveToNext()){
+            taskListSubs.add(cursor.getString(index).toString());
+        }
+        cursor.close();
+        return taskListSubs;
+    }
 }

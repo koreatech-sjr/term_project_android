@@ -123,13 +123,16 @@ public class MainActivity extends AppCompatActivity implements RegisterSchedule.
     private ArrayList getListData() {
         ArrayList<String> taskList = dbHelper.getTaskList();
         ArrayList<String> taskSubs = dbHelper.getTaskSubs();
-
+        ArrayList<String> taskLabels = dbHelper.getTaskLabels();
+        ArrayList<String> taskYears = dbHelper.getTaskYear();
+        ArrayList<String> taskMonths = dbHelper.getTaskMonth();
+        ArrayList<String> taskDays = dbHelper.getTaskDays();
         ArrayList<NewsItem> results = new ArrayList<NewsItem>();
         for(int i=0; i<taskList.size(); i++){
             NewsItem newsData = new NewsItem();
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
-            newsData.setDate("May 26, 2013, 13:35");
+            newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             results.add(newsData);
         }
 
