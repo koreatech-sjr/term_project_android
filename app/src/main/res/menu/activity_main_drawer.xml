@@ -28,18 +28,18 @@
             android:id="@+id/purple"
             android:icon="@mipmap/purple_square"
             android:title="Label purple" />
+        <item
+            android:id="@+id/all"
+            android:icon="@mipmap/purple_square"
+            android:title="All Label" />
     </group>
 
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/gc"
                 android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:title="GoogleCalendar Sync" />
         </menu>
     </item>
 </menu>

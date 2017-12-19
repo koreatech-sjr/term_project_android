@@ -82,7 +82,6 @@ public class MainActivity extends AppCompatActivity
 
     //calendar
     GoogleAccountCredential mCredential;
-    private TextView mOutputText;
     private Button mCallApiButton;
     ProgressDialog mProgress;
 
@@ -173,10 +172,10 @@ public class MainActivity extends AppCompatActivity
         lv1.setOnScrollListener(touchListener.makeScrollListener());
         mProgress = new ProgressDialog(this);
         mProgress.setMessage("Calling Google Calendar API ...");
-        mOutputText = (TextView)findViewById(R.id.test);
         mCredential = GoogleAccountCredential.usingOAuth2(
                 getApplicationContext(), Arrays.asList(SCOPES))
                 .setBackOff(new ExponentialBackOff());
+
     }
     private void loadTaskList() {
 
@@ -256,7 +255,12 @@ public class MainActivity extends AppCompatActivity
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
                 break;
-            case R.id.nav_share:
+            case R.id.all:
+                image_details = getListData();
+                ca = new CustomListAdapter(this, image_details);
+                lv1.setAdapter(ca);
+                break;
+            case R.id.gc:
                 getResultsFromApi();
                 break;
         }
@@ -584,7 +588,6 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         protected void onPreExecute() {
-            mOutputText.setText("");
             mProgress.show();
         }
 
@@ -595,10 +598,9 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(MainActivity.this, "No results returned." , Toast.LENGTH_LONG).show();
             } else {
                 //TODO: 추가하기
-                mOutputText.setText(TextUtils.join("\n", output));
                 System.out.println(output);
                 String[] data;
-
+                int size = output.size();
                 for(int i=0; i<output.size(); i++) {
                     data = output.get(i).split(" ");
                     String title = data[0];
@@ -607,6 +609,7 @@ public class MainActivity extends AppCompatActivity
                         if(title.equals(dbHelper.getTaskList().get(j).toString())){
                             System.out.println("k");
                             flag = false;
+                            size--;
                         }
                     }
                     if(flag){
@@ -646,6 +649,7 @@ public class MainActivity extends AppCompatActivity
                 lv1 = (ListView) findViewById(R.id.lstTask);
                 ca = new CustomListAdapter(MainActivity.this, image_details);
                 lv1.setAdapter(ca);
+                Toast.makeText(MainActivity.this,"Google Calendar에서 총 "+size+"개의 일정을 가져옴.(중복제외)", Toast.LENGTH_LONG).show();
             }
         }
 
@@ -662,11 +666,11 @@ public class MainActivity extends AppCompatActivity
                             ((UserRecoverableAuthIOException) mLastError).getIntent(),
                             MainActivity.REQUEST_AUTHORIZATION);
                 } else {
-                    mOutputText.setText("The following error occurred:\n"
-                            + mLastError.getMessage());
+                    Toast.makeText(MainActivity.this,"The following error occurred:\n"
+                            + mLastError.getMessage(), Toast.LENGTH_LONG).show();
                 }
             } else {
-                mOutputText.setText("Request cancelled.");
+                Toast.makeText(MainActivity.this,"Request cancelled.", Toast.LENGTH_LONG).show();
             }
         }
     }
