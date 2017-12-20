@@ -47,4 +47,12 @@ public class NewsItem {
     public void setDday(String dday) {
         this.dday = dday;
     }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
+    }
 }

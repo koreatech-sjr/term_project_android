@@ -62,7 +62,7 @@
         android:text="2017.01.01"
         android:textSize="12sp" />
     <TextView
-        android:id="@+id/label"
+        android:id="@+id/bar"
         android:layout_width="10sp"
         android:layout_height="75sp"
         android:layout_marginBottom="11sp"

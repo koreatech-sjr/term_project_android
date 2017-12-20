@@ -1,6 +1,7 @@
 package com.example.rock.todo;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -62,14 +63,38 @@ public class CustomListAdapter extends BaseAdapter implements View.OnTouchListen
             holder.reporterNameView = (TextView) convertView.findViewById(R.id.reporter);
             holder.reportedDateView = (TextView) convertView.findViewById(R.id.date);
             holder.ddayView = (TextView) convertView.findViewById(R.id.dday);
+            holder.barView = (TextView) convertView.findViewById(R.id.bar);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
 
         holder.headlineView.setText(listData.get(position).getHeadline());
-        holder.reporterNameView.setText("By, " + listData.get(position).getReporterName());
+        holder.reporterNameView.setText(listData.get(position).getReporterName());
         holder.reportedDateView.setText(listData.get(position).getDate());
+        switch(listData.get(position).getLabel()) {
+            case "None":
+                holder.barView.setBackgroundColor(Color.rgb(212, 212, 212));
+                break;
+            case "Black":
+                holder.barView.setBackgroundColor(Color.rgb(0, 0, 0));
+                break;
+            case "Red":
+                holder.barView.setBackgroundColor(Color.rgb(255, 0, 0));
+                break;
+            case "Yellow":
+                holder.barView.setBackgroundColor(Color.rgb(255, 236, 59));
+                break;
+            case "Green":
+                holder.barView.setBackgroundColor(Color.rgb(76, 175, 79));
+                break;
+            case "Blue":
+                holder.barView.setBackgroundColor(Color.rgb(34, 150, 243));
+                break;
+            case "Purple":
+                holder.barView.setBackgroundColor(Color.rgb(125, 75, 204));
+                break;
+        }
         //TODO: 몇일 지남 만들어야함
         holder.ddayView.setText(listData.get(position).getDday()+"일 남음");
         return convertView;
@@ -96,6 +121,7 @@ public class CustomListAdapter extends BaseAdapter implements View.OnTouchListen
         public TextView text;
         public float lastTouchedX;
         public float lastTouchedY;
+        public TextView barView;
 
 
         public ViewHolder(View v) {

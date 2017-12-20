@@ -34,6 +34,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -111,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DrawerColor co;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (Build.VERSION.SDK_INT >= 21) {
+            getWindow().setStatusBarColor(Color.rgb(95,95,95));
+        }
+
+
+        출처: http://makerj.tistory.com/174 [CheatSheet]
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -239,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         NewsItem newsData = new NewsItem();
                                         newsData.setHeadline(taskList.get(i));
                                         newsData.setReporterName(taskSubs.get(i));
+                                        newsData.setLabel(taskLabels.get(i));
                                         newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
                                         newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
                                         try {
@@ -400,6 +408,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         db.execSQL("INSERT INTO Task VALUES (null, '" + title + "', '" + contents + "', '" + label + "', '" + year + "', '" + month + "', '" + day + "');");
         image_details = getListData();
         lv1 = (ListView) findViewById(R.id.lstTask);
+
         ca = new CustomListAdapter(this, image_details);
         lv1.setAdapter(sortedData());
     }
@@ -432,6 +441,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             NewsItem newsData = new NewsItem();
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
+            newsData.setLabel(taskLabels.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
             String begin = nowDate+"";
@@ -467,13 +477,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             swap(taskDays, min, i);
             System.out.println("after"+taskList.get(min));
         }
-        System.out.println(taskList);
-        System.out.println(taskList.get(position)+
-                taskSubs.get(position)+
-                taskLabels.get(position)+
-                taskYears.get(position)+
-                taskMonths.get(position)+
-                taskDays.get(position));
+
         AdjustSchedule newFragment = new AdjustSchedule( taskList.get(position),
                 taskSubs.get(position),
                 taskLabels.get(position),
@@ -496,7 +500,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
-
+            newsData.setLabel(taskLabels.get(i));
             String begin = nowDate+"";
             String end = taskYears.get(i)+taskMonths.get(i)+taskDays.get(i);
 
@@ -504,6 +508,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            newsData.setLabel(taskLabels.get(i));
             try {
                 newsData.setDday(String.valueOf(diffOfDate(begin, end)));
             } catch (Exception e) {
@@ -532,11 +537,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 NewsItem newsData = new NewsItem();
                 newsData.setHeadline(taskList.get(i));
                 newsData.setReporterName(taskSubs.get(i));
+                newsData.setLabel(taskLabels.get(i));
                 newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
                 String begin = nowDate+"";
                 String end = taskYears.get(i)+taskMonths.get(i)+taskDays.get(i);
                 newsData.setHeadline(taskList.get(i));
                 newsData.setReporterName(taskSubs.get(i));
+                newsData.setLabel(taskLabels.get(i));
                 newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
                 newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
                 try {
@@ -842,6 +849,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     String end = taskYears.get(i)+taskMonths.get(i)+taskDays.get(i);
                     newsData.setHeadline(taskList.get(i));
                     newsData.setReporterName(taskSubs.get(i));
+                    newsData.setLabel(taskLabels.get(i));
                     newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
                     newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
                     try {
@@ -897,6 +905,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             NewsItem newsData = new NewsItem();
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
+            newsData.setLabel(taskLabels.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
             try {

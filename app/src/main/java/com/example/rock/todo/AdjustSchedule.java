@@ -60,6 +60,7 @@ public class AdjustSchedule extends DialogFragment{
         View view = inflater.inflate(R.layout.register_schedule, null);
         builder.setView(view);
         final Button submit = (Button) view.findViewById(R.id.btn);
+        submit.setText("수정하기");
         final EditText title = (EditText) view.findViewById(R.id.title);
         final EditText contents = (EditText) view.findViewById(R.id.contents);
         //final EditText label = (EditText) view.findViewById(R.id.label);

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -48,7 +52,7 @@ public class RegisterSchedule extends DialogFragment{
         final Button submit = (Button) view.findViewById(R.id.btn);
         final EditText title = (EditText) view.findViewById(R.id.title);
         final EditText contents = (EditText) view.findViewById(R.id.contents);
-        //final EditText label = (EditText) view.findViewById(R.id.label);
+
         final EditText year = (EditText) view.findViewById(R.id.year);
         final EditText month = (EditText) view.findViewById(R.id.month);
         final EditText day = (EditText) view.findViewById(R.id.day);
@@ -67,7 +71,9 @@ public class RegisterSchedule extends DialogFragment{
             public void onItemSelected(AdapterView<?> parent, View view,
                                        int position, long id) {
                 //TODO:선택시 하기
+
                 switch(position){
+
                     case 0:
                         strLabel = "None";
                         break;
@@ -112,7 +118,8 @@ public class RegisterSchedule extends DialogFragment{
                 if(strMonth.length() != 2){
                     strMonth = "0"+strMonth;
                 }
-                dismiss();
+
+                    dismiss();
                 mCallback.onInputedData(strTitle, strContents, strLabel, strYear, strMonth, strDay);
             }
         });
