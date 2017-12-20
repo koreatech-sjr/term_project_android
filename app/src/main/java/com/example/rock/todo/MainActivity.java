@@ -197,8 +197,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             }
         });
-
-        SwipeDismissListViewTouchListener touchListener =
+        lv1.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                                       @Override
+                                       public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                                           Object o = lv1.getItemAtPosition(position);
+                                           NewsItem newsData = (NewsItem) o;
+                                           showAdjust(position);
+                                       }
+                                   });
+            SwipeDismissListViewTouchListener touchListener =
                 new SwipeDismissListViewTouchListener(lv1,
                         new SwipeDismissListViewTouchListener.DismissCallbacks() {
                             @Override
@@ -279,39 +287,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
         switch(id){
             case R.id.black:
+                sortedData();
                 image_details = getListSelectLabel("black");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.red:
+                sortedData();
                 image_details = getListSelectLabel("red");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.yellow:
+                sortedData();
                 image_details = getListSelectLabel("yellow");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.green:
+                sortedData();
                 image_details = getListSelectLabel("green");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.blue:
+                sortedData();
                 image_details = getListSelectLabel("blue");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.purple:
+                sortedData();
                 image_details = getListSelectLabel("purple");
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.all:
                 image_details = getListData();
                 ca = new CustomListAdapter(this, image_details);
-                lv1.setAdapter(sortedData());
+                lv1.setAdapter(ca);
                 break;
             case R.id.gc:
                 getResultsFromApi();
