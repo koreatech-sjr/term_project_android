@@ -807,13 +807,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ArrayList<NewsItem> results = new ArrayList<NewsItem>();
 
         for(int i=0; i<taskList.size(); i++){
-
+            String begin = nowDate+"";
+            String end = taskYears.get(i)+taskMonths.get(i)+taskDays.get(i);
             NewsItem newsData = new NewsItem();
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
             newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
-            newsData.setDday((Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i))-nowDate-1)+"");
+            try {
+                newsData.setDday(String.valueOf(diffOfDate(begin, end)));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             results.add(newsData);
         }
 
@@ -829,5 +834,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         sca = new CustomListAdapter(MainActivity.this, results);
         return sca;
+    }
+    public static long diffOfDate(String begin, String end) throws Exception
+    {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+
+        Date beginDate = formatter.parse(begin);
+        Date endDate = formatter.parse(end);
+
+        long diff = endDate.getTime() - beginDate.getTime();
+        long diffDays = diff / (24 * 60 * 60 * 1000);
+
+        return diffDays;
     }
 }
