@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 
 public class RegisterSchedule extends DialogFragment{
@@ -39,24 +41,24 @@ public class RegisterSchedule extends DialogFragment{
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.register_schedule, null);
         builder.setView(view);
-        final Button submit = (Button) view.findViewById(R.id.buttonSubmit);
-        final EditText title = (EditText) view.findViewById(R.id.edittextTitle);
-        final EditText contents = (EditText) view.findViewById(R.id.edittextContents);
-        final EditText label = (EditText) view.findViewById(R.id.edittextLabel);
-        final EditText year = (EditText) view.findViewById(R.id.edittextYear);
-        final EditText month = (EditText) view.findViewById(R.id.edittextMonth);
-        final EditText day = (EditText) view.findViewById(R.id.edittextDay);
+        final Button submit = (Button) view.findViewById(R.id.btn);
+        final EditText title = (EditText) view.findViewById(R.id.title);
+        final EditText contents = (EditText) view.findViewById(R.id.contents);
+        //final EditText label = (EditText) view.findViewById(R.id.label);
+        final EditText year = (EditText) view.findViewById(R.id.year);
+        final EditText month = (EditText) view.findViewById(R.id.month);
+        final EditText day = (EditText) view.findViewById(R.id.day);
 
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String strTitle = title.getText().toString();
                 String strContents = contents.getText().toString();
-                String strLabel = label.getText().toString();
+                //String strLabel = label.getText().toString();
                 String strYear = year.getText().toString();
                 String strMonth = month.getText().toString();
                 String strDay = day.getText().toString();
                 dismiss();
-                mCallback.onInputedData(strTitle, strContents, strLabel, strYear, strMonth, strDay);
+                mCallback.onInputedData(strTitle, strContents, /*strLabel*/"", strYear, strMonth, strDay);
             }
         });
 
