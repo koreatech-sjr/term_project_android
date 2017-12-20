@@ -10,6 +10,7 @@ public class NewsItem {
     private String date;
     private Integer dates;
     private String dday;
+    public String label;
 
     public String getHeadline() {
         return headline;
@@ -45,5 +46,13 @@ public class NewsItem {
 
     public void setDday(String dday) {
         this.dday = dday;
+    }
+
+    public String getLabel() {
+        return label;
+    }
+
+    public void setLabel(String label) {
+        this.label = label;
     }
 }
