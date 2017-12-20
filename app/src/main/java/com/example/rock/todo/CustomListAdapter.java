@@ -95,8 +95,17 @@ public class CustomListAdapter extends BaseAdapter implements View.OnTouchListen
                 holder.barView.setBackgroundColor(Color.rgb(125, 75, 204));
                 break;
         }
-        //TODO: 몇일 지남 만들어야함
-        holder.ddayView.setText(listData.get(position).getDday()+"일 남음");
+        if (Integer.parseInt(listData.get(position).getDday()) > 0) {
+            holder.ddayView.setText(listData.get(position).getDday() + "일 남음");
+        }
+        else if(Integer.parseInt(listData.get(position).getDday()) == 0){
+            holder.ddayView.setText("오늘까지");
+            holder.ddayView.setTextColor(Color.rgb(0,0,0));
+        }
+        else {
+            holder.ddayView.setText(-Integer.parseInt(listData.get(position).getDday()) + "일 지남");
+            holder.ddayView.setTextColor(Color.rgb(255,0,0));
+        }
         return convertView;
     }
     public void remove(int position){

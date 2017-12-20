@@ -248,7 +248,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                         newsData.setReporterName(taskSubs.get(i));
                                         newsData.setLabel(taskLabels.get(i));
                                         newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
-                                        newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+                                        //newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
                                         try {
                                             newsData.setDday(String.valueOf(diffOfDate(begin, end)));
                                         } catch (Exception e) {
@@ -260,9 +260,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                     for(int i=0; i<results.size()-1; i++) {
                                         int min = i;
                                         for(int j=i+1; j<results.size(); j++) {
-                                            if(results.get(j).getDates() < results.get(min).getDates()) { //오름차순
-                                                min = j;
+                                            try{
+                                                if(results.get(j).getDates() < results.get(min).getDates()) { //오름차순
+                                                    min = j;
+                                                }
+                                            }catch (Exception e) {
+                                                e.printStackTrace();
                                             }
+
                                         }
                                         swap(results, min, i);
                                         swap(uidList, min, i);
@@ -399,8 +404,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     @Override
     public void onInputedData(String title, String contents, String label, String year, String month, String day) {
-        Toast.makeText(getApplicationContext(), title+contents+label+year+month+day, Toast.LENGTH_LONG).show();
-
+        if( title == null && title == "" && contents == null && contents == "" && label == null && label == "" && year == null && year == "" && month == null && month == "" && day == null && day == "" ){
+            Toast.makeText(getApplicationContext(), "뭔가를 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
+            return;
+        }
         db.execSQL("INSERT INTO Task VALUES (null, '" + title + "', '" + contents + "', '" + label + "', '" + year + "', '" + month + "', '" + day + "');");
         image_details = getListData();
         lv1 = (ListView) findViewById(R.id.lstTask);
@@ -411,7 +418,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onAdjustInputedData(String title, String contents, String label, String year, String month, String day, String where) {
         Toast.makeText(getApplicationContext(), title+contents+label+year+month+day, Toast.LENGTH_LONG).show();
-
+        if( title == null && title == "" && contents == null && contents == "" && label == null && label == "" && year == null && year == "" && month == null && month == "" && day == null && day == "" ){
+            Toast.makeText(getApplicationContext(), "뭔가를 입력하지 않았습니다!", Toast.LENGTH_LONG).show();
+            return;
+        }
         db.execSQL("UPDATE Task SET TaskName = '"+title+"', TaskContents = '"+contents+"', TaskLabel = '"+label+"', TaskYear = '"+year+"', TaskMonth = '"+month+"', TaskDay = '"+day+"' WHERE TaskName = '"+where+"';");
         image_details = getListData();
         lv1 = (ListView) findViewById(R.id.lstTask);
@@ -439,7 +449,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setReporterName(taskSubs.get(i));
             newsData.setLabel(taskLabels.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
-            newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            //newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
             String begin = nowDate+"";
             String end = taskYears.get(i)+taskMonths.get(i)+taskDays.get(i);
 
@@ -503,7 +513,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setHeadline(taskList.get(i));
             newsData.setReporterName(taskSubs.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
-            newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            //newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
             newsData.setLabel(taskLabels.get(i));
             try {
                 newsData.setDday(String.valueOf(diffOfDate(begin, end)));
@@ -596,6 +606,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     "This app needs to access your Google account (via Contacts).",
                     REQUEST_PERMISSION_GET_ACCOUNTS,
                     Manifest.permission.GET_ACCOUNTS);
+            Toast.makeText(MainActivity.this, "한번더 동기화버튼을 눌러주세요!", Toast.LENGTH_LONG).show();
         }
     }
     protected void onActivityResult(
@@ -903,7 +914,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             newsData.setReporterName(taskSubs.get(i));
             newsData.setLabel(taskLabels.get(i));
             newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
-            newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            //newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
             try {
                 newsData.setDday(String.valueOf(diffOfDate(begin, end)));
             } catch (Exception e) {
@@ -915,8 +926,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         for(int i=0; i<results.size()-1; i++) {
             int min = i;
             for(int j=i+1; j<results.size(); j++) {
-                if(results.get(j).getDates() < results.get(min).getDates()) { //오름차순
-                    min = j;
+                try {
+                    if(results.get(j).getDates() < results.get(min).getDates()) { //오름차순
+                        min = j;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             swap(results, min, i);
