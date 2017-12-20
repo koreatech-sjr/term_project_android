@@ -28,7 +28,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
+import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -105,18 +107,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //날짜
     long now;
     Integer nowDate;
+    LinearLayout draw;
+    DrawerColor co;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        co = new DrawerColor();
         now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String getDate = sdf.format(date);
         nowDate = Integer.parseInt(getDate);
+
+        LinearLayout draw = (LinearLayout)findViewById(R.id.drawer);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -283,55 +289,72 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ArrayList<String> taskMonths = dbHelper.getTaskMonth();
         ArrayList<String> taskDays = dbHelper.getTaskDays();
 
-
+        int pos = 6;
         int id = item.getItemId();
         switch(id){
             case R.id.black:
                 sortedData();
                 image_details = getListSelectLabel("black");
                 ca = new CustomListAdapter(this, image_details);
+                TextView ts = (TextView) findViewById(R.id.drawer_title);
+                ts.setTextColor(Color.rgb(255,255,255));
+                TextView ts2 = (TextView) findViewById(R.id.drawer_cont);
+                ts2.setTextColor(Color.rgb(255,255,255));
                 lv1.setAdapter(ca);
+                pos=0;
                 break;
             case R.id.red:
                 sortedData();
                 image_details = getListSelectLabel("red");
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
+                pos=1;
                 break;
             case R.id.yellow:
                 sortedData();
                 image_details = getListSelectLabel("yellow");
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
+                pos=2;
                 break;
             case R.id.green:
                 sortedData();
                 image_details = getListSelectLabel("green");
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
+                pos=3;
                 break;
             case R.id.blue:
                 sortedData();
                 image_details = getListSelectLabel("blue");
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
+                pos=4;
                 break;
             case R.id.purple:
                 sortedData();
                 image_details = getListSelectLabel("purple");
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
+                pos=5;
                 break;
             case R.id.all:
                 image_details = getListData();
                 ca = new CustomListAdapter(this, image_details);
                 lv1.setAdapter(ca);
+                pos=6;
+                TextView ts3 = (TextView) findViewById(R.id.drawer_title);
+                ts3.setTextColor(Color.rgb(0,0,0));
+                TextView ts4 = (TextView) findViewById(R.id.drawer_cont);
+                ts4.setTextColor(Color.rgb(0,0,0));
                 break;
             case R.id.gc:
                 getResultsFromApi();
                 break;
         }
 
+        draw = findViewById(R.id.drawer);
+        draw.setBackgroundColor((co.getColor(pos)));
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -6,39 +6,33 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/black"
-            android:icon="@mipmap/black_square"
-            android:title="Label Black" />
+            android:title="Only Label Black"
+            />
         <item
             android:id="@+id/red"
-            android:icon="@mipmap/red_square"
-            android:title="Label Red" />
+            android:title="Only Label Red" />
         <item
             android:id="@+id/yellow"
-            android:icon="@mipmap/yellow_square"
-            android:title="Label Yellow" />
+            android:title="Only Label Yellow" />
         <item
             android:id="@+id/green"
-            android:icon="@mipmap/green_square"
-            android:title="Label green" />
+            android:title="Only Label green" />
         <item
             android:id="@+id/blue"
-            android:icon="@mipmap/blue_square"
-            android:title="Label blue" />
+            android:title="Only Label blue" />
         <item
             android:id="@+id/purple"
-            android:icon="@mipmap/purple_square"
-            android:title="Label purple" />
+            android:title="Only Label purple" />
         <item
             android:id="@+id/all"
-            android:icon="@mipmap/purple_square"
             android:title="All Label" />
     </group>
 
-    <item android:title="부가 기능">
+    <item android:title="부가 기">
         <menu>
             <item
                 android:id="@+id/gc"
-                android:icon="@drawable/ic_menu_share"
+                android:icon="@drawable/common_ic_googleplayservices"
                 android:title="GoogleCalendar Sync" />
         </menu>
     </item>
