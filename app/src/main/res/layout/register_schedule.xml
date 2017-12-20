@@ -3,15 +3,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <ImageView
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@mipmap/ic_launcher_foreground"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:scaleType="center"
-        android:background="#FFFFBB33"
+        android:background="#5f5f5f"
         android:contentDescription="@string/app_name" />
     <EditText
         android:id="@+id/title"
-        android:inputType="textEmailAddress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -22,7 +21,6 @@
         android:hint="할 일 제목" />
     <EditText
         android:id="@+id/contents"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -61,7 +59,7 @@
         android:orientation="horizontal">
         <EditText
             android:id="@+id/year"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:layout_width="40dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -84,12 +82,12 @@
             android:layout_marginTop="2dp"
             android:fontFamily="sans-serif"
             android:hint="월"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:textSize="15sp" />
         <EditText
             android:id="@+id/day"
             android:layout_weight="1"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
