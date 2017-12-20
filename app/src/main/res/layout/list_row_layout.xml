@@ -3,13 +3,25 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dip" >
+    android:padding="5dip"
+    android:layout_marginBottom="12dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="12dp"
+    android:background="#ffffff"
+    >
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:layout_marginLeft="27sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginBottom="8sp"
+        android:text="Title"
+        android:textColor="#000000"
+        android:textSize="25sp"
         android:typeface="sans" />
 
     <TextView
@@ -17,19 +29,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-        android:layout_marginTop="5dip"
+        android:layout_marginTop="3sp"
+        android:text="Content"
         android:textColor="#343434"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/reporter"
-        android:layout_alignBottom="@+id/reporter"
-        android:layout_alignParentRight="true"
-        android:textColor="#343434"
-        android:textSize="12sp" />
+        android:layout_marginBottom="12sp"
+        android:layout_marginLeft="35sp"
+        android:textSize="15sp" />
     <TextView
         android:id="@+id/dday"
         android:layout_width="wrap_content"
@@ -38,5 +43,32 @@
         android:layout_alignBottom="@+id/title"
         android:layout_alignParentRight="true"
         android:textColor="#343434"
+        android:layout_marginRight="15sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginBottom="12sp"
+        android:text="26일 남음"
+        android:textSize="17sp" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/reporter"
+        android:layout_alignBottom="@+id/reporter"
+        android:layout_alignParentRight="true"
+        android:textColor="#343434"
+        android:layout_marginRight="15sp"
+        android:layout_marginTop="12sp"
+        android:layout_marginBottom="9sp"
+        android:text="2017.01.01"
         android:textSize="12sp" />
+    <TextView
+        android:id="@+id/bar"
+        android:layout_width="10sp"
+        android:layout_height="70sp"
+        android:layout_marginBottom="5sp"
+        android:layout_marginLeft="8sp"
+        android:layout_marginTop="7sp"
+        android:background="#afafaf"
+        />
+
 </RelativeLayout>

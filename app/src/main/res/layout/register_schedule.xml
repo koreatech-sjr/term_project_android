@@ -1,68 +1,113 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="16dp" >
-
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:src="@mipmap/ic_launcher_foreground"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:scaleType="center"
+        android:background="#5f5f5f"
+        android:contentDescription="@string/app_name" />
     <EditText
-        android:id="@+id/edittextTitle"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginBottom="10dp"
-        android:inputType="textEmailAddress"
-        />
-
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:textSize="15sp"
+        android:hint="할 일 제목" />
     <EditText
-        android:id="@+id/edittextContents"
+        android:id="@+id/contents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextTitle"
-        android:ems="10" />
-
-    <EditText
-        android:id="@+id/edittextLabel"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="4dp"
+        android:fontFamily="sans-serif"
+        android:textSize="15sp"
+        android:hint="짧게 설명"/>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextContents"
-        android:ems="10" />
-
-    <EditText
-        android:id="@+id/edittextYear"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="150dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:text="라 벨"
+            />
+        <Spinner
+            android:id="@+id/label"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextLabel"
-        android:ems="10" />
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/year"
+            android:inputType="number"
+            android:layout_width="40dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:hint="년도"/>
 
-    <EditText
-        android:id="@+id/edittextMonth"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextYear"
-        android:ems="10" />
+        <EditText
+            android:id="@+id/month"
+            android:layout_weight="1"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif"
+            android:hint="월"
+            android:inputType="number"
+            android:textSize="15sp" />
+        <EditText
+            android:id="@+id/day"
+            android:layout_weight="1"
+            android:inputType="number"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="4dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="sans-serif"
+            android:textSize="15sp"
+            android:hint="일"/>
+    </LinearLayout>
 
-    <EditText
-        android:id="@+id/edittextDay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextMonth"
-        android:ems="10" />
+
 
     <Button
-        android:id="@+id/buttonSubmit"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/edittextDay"
-        android:layout_marginTop="53dp"
-        android:text="Sign In" />
+        android:id="@+id/btn"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        android:layout_weight="2"
+        android:text="추 가"
+        android:textColor="#000000"
 
-</RelativeLayout>
+        />
+</LinearLayout>
