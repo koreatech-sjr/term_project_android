@@ -10,6 +10,7 @@ public class NewsItem {
     private String date;
     private Integer dates;
     private String dday;
+    public String label;
 
     public String getHeadline() {
         return headline;
