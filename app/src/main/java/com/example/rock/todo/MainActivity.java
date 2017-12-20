@@ -207,8 +207,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new AdapterView.OnItemClickListener() {
                                        @Override
                                        public void onItemClick(AdapterView<?> a, View v, int position, long id) {
-                                           Object o = lv1.getItemAtPosition(position);
-                                           NewsItem newsData = (NewsItem) o;
+                                           sortedData().getItem(position);
                                            showAdjust(position);
                                        }
                                    });
@@ -386,12 +385,54 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         newFragment.show(getFragmentManager(), "dialog"); //"dialog"라는 태그를 갖는 프래그먼트를 보여준다.
     }
     void showAdjust(int position){
-        AdjustSchedule newFragment = new AdjustSchedule( dbHelper.getTaskList().get(position),
-                dbHelper.getTaskSubs().get(position),
-                dbHelper.getTaskLabels().get(position),
-                dbHelper.getTaskYear().get(position),
-                dbHelper.getTaskMonth().get(position),
-                dbHelper.getTaskDays().get(position) );
+        ArrayList<String> taskList = dbHelper.getTaskList();
+        ArrayList<String> taskSubs = dbHelper.getTaskSubs();
+        ArrayList<String> taskLabels = dbHelper.getTaskLabels();
+        ArrayList<String> taskYears = dbHelper.getTaskYear();
+        ArrayList<String> taskMonths = dbHelper.getTaskMonth();
+        ArrayList<String> taskDays = dbHelper.getTaskDays();
+        ArrayList<NewsItem> results = new ArrayList<NewsItem>();
+        System.out.println(taskList);
+        for(int i=0; i<taskList.size(); i++){
+            NewsItem newsData = new NewsItem();
+            newsData.setHeadline(taskList.get(i));
+            newsData.setReporterName(taskSubs.get(i));
+            newsData.setDate(taskYears.get(i)+". "+taskMonths.get(i)+". "+taskDays.get(i));
+            newsData.setDates(Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i)));
+            newsData.setDday((Integer.parseInt(taskYears.get(i))*10000+Integer.parseInt(taskMonths.get(i))*100+Integer.parseInt(taskDays.get(i))-nowDate-1)+"");
+            results.add(newsData);
+        }
+
+        for(int i=0; i<results.size()-1; i++) {
+            int min = i;
+            for(int j=i+1; j<results.size(); j++) {
+                if(results.get(j).getDates() < results.get(min).getDates()) { //오름차순
+                    min = j;
+                }
+            }
+            System.out.println("k"+taskList.get(min));
+            swap(taskList, min, i);
+            swap(taskSubs, min, i);
+            swap(taskLabels, min, i);
+            swap(taskYears, min, i);
+            swap(taskMonths, min, i);
+            swap(taskDays, min, i);
+            System.out.println("after"+taskList.get(min));
+        }
+        System.out.println(taskList);
+        System.out.println(taskList.get(position)+
+                taskSubs.get(position)+
+                taskLabels.get(position)+
+                taskYears.get(position)+
+                taskMonths.get(position)+
+                taskDays.get(position));
+        AdjustSchedule newFragment = new AdjustSchedule( taskList.get(position),
+                taskSubs.get(position),
+                taskLabels.get(position),
+                taskYears.get(position),
+                taskMonths.get(position),
+                taskDays.get(position)
+                );
         newFragment.show(getFragmentManager(), "dialog"); //"dialog"라는 태그를 갖는 프래그먼트를 보여준다.
     }
     private ArrayList getListData() {
